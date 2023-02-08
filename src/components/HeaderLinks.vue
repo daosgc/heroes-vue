@@ -1,32 +1,34 @@
-<script setup lang="ts">
-interface ILinksData {
-  name: string;
-  url: string;
-}
+<script lang="ts">
+import type { ILinksData } from "@/interfaces/common.interface";
 
 const links: ILinksData[] = [
   {
-    name: "Vite /",
+    name: "Vite",
     url: "https://vitejs.dev/",
   },
   {
-    name: "Vue 3 /",
+    name: "Vue 3",
     url: "https://vuejs.org/",
   },
 ];
+
+export default {
+  data() {
+    return {
+      links,
+    };
+  },
+};
 </script>
 
 <template>
   <div class="content-links">
-    <a
-      v-for="(link, index) in links"
-      v-bind:href="link.url"
-      :key="index"
-      target="_blank"
-      rel="noopener"
-    >
-      {{ link.name }}
-    </a>
+    <div v-for="(link, index) in links" :key="index">
+      <a v-bind:href="link.url" target="_blank" rel="noopener">
+        {{ link.name }}
+      </a>
+      <span>, </span>
+    </div>
   </div>
 </template>
 
