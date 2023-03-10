@@ -31,37 +31,7 @@
 
 <script lang="ts">
 import HeroDetails from '@/components/HeroDetails.vue';
-
-const heroes = [
-  {
-    id: 10,
-    firstName: "Ella",
-    lastName: "Papa",
-    description: "fashionista",
-    capeCounter: 2,
-  },
-  {
-    id: 20,
-    firstName: "Madelyn",
-    lastName: "Papa",
-    description: "the cat whisperer",
-    capeCounter: 0,
-  },
-  {
-    id: 30,
-    firstName: "Haley",
-    lastName: "Papa",
-    description: "pen wielder",
-    capeCounter: 1,
-  },
-  {
-    id: 40,
-    firstName: "Landon",
-    lastName: "Papa",
-    description: "arc trooper",
-    capeCounter: 2,
-  },
-];
+import { data } from "../shared";
 
 export default {
   name: "HeroesComponent",
@@ -74,8 +44,8 @@ export default {
       currentDate: new Date().valueOf(),
     };
   },
-  created() {
-    this.loadHeroes();
+  async created() {
+    await this.loadHeroes();
   },
   components: {
     HeroDetails,
@@ -87,7 +57,7 @@ export default {
       });
     },
     async loadHeroes() {
-      this.heroes = await this.getHeroes();
+      this.heroes = await data.getHeroes();
     },
     cancelHero() {
       this.selectedHero = undefined;
