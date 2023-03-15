@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { data } from "../shared";
+import { dataService } from "../shared";
 
 export default {
   name: "HeroesView",
@@ -56,13 +56,8 @@ export default {
   },
   components: {},
   methods: {
-    async getHeroes() {
-      return new Promise((resolve) => {
-        setTimeout(() => resolve(heroes), 1500);
-      });
-    },
     async loadHeroes() {
-      this.heroes = await data.getHeroes();
+      this.heroes = await dataService.getHeroes();
     },
   },
   filters: {

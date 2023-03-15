@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { lifecycleHooks, data } from "../shared";
+import { lifecycleHooks, dataService } from "../shared";
 
 export default {
   name: "HeroDetails",
@@ -68,7 +68,7 @@ export default {
     },
   },
   async created() {
-    this.hero = await data.getHero(this.id);
+    this.hero = await dataService.getHero(this.id);
   },
   data() {
     return {
@@ -86,7 +86,7 @@ export default {
       this.$router.push({ name: "heroes" });
     },
     async saveHero() {
-      await data.updateHero(this.hero);
+      await dataService.updateHero(this.hero);
       this.$router.push({ name: "heroes" });
     },
     handleTheCapes(newValue) {
