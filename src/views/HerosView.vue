@@ -8,36 +8,43 @@
         <header class="card-header">
           <p class="card-header-title">Heroes List</p>
         </header>
-        <ul class="list is-hoverable">
+        <ul>
           <li v-for="hero in heroes" :key="hero.id">
-            <a
-              class="list-item"
-              @click="selectedHero = hero"
-              :class="{ 'is-active': selectedHero === hero }"
-              ><span>{{ hero.firstName }}</span></a
-            >
+            <div class="card">
+              <div class="card-content">
+                <div class="content">
+                  <div :key="hero.name" class="name">
+                    {{ hero.firstName }} {{ hero.lastName }}
+                  </div>
+                  <div class="description">{{ hero.description }}</div>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <router-link
+                  class="link card-footer-item"
+                  :to="{ name: 'hero-detail', params: { id: hero.id } }"
+                >
+                  <button>
+                    <i class="fas fa-check"></i>
+                    <span>Select</span>
+                  </button>
+                </router-link>
+              </footer>
+            </div>
           </li>
         </ul>
       </div>
     </div>
-    <HeroDetails
-      :hero="selectedHero"
-      @save="saveHero"
-      @cancel="cancelHero"
-      v-if="selectedHero"
-    />
   </div>
 </template>
 
 <script lang="ts">
-import HeroDetails from '@/components/HeroDetails.vue';
 import { data } from "../shared";
 
 export default {
-  name: "HeroesComponent",
+  name: "HeroesView",
   data() {
     return {
-      selectedHero: undefined,
       showMore: false,
       heroes: [],
       capeMessage: "",
@@ -47,9 +54,7 @@ export default {
   async created() {
     await this.loadHeroes();
   },
-  components: {
-    HeroDetails,
-  },
+  components: {},
   methods: {
     async getHeroes() {
       return new Promise((resolve) => {
@@ -58,15 +63,6 @@ export default {
     },
     async loadHeroes() {
       this.heroes = await data.getHeroes();
-    },
-    cancelHero() {
-      this.selectedHero = undefined;
-    },
-    saveHero(hero) {
-      const index = this.heroes.findIndex(h => h.id === hero.id);
-      this.heroes.splice(index, 1, hero);
-      this.heroes = [...this.heroes];
-      this.selectedHero = undefined;
     },
   },
   filters: {

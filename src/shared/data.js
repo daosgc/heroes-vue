@@ -19,6 +19,27 @@ const getHeroes = async () => {
   }
 };
 
+const getHero = async (id) => {
+  try {
+    const response = await axios.get(`${id}.json`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const updateHero = async (hero) => {
+  try {
+    const response = await axios.get(`${hero.id}.json`);
+    const updatedHero = { ...response.data, ...hero };
+    return updatedHero;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 const parseList = (response) => {
   if (response.status !== 200) throw Error(response.message);
   if (!response.data) return [];
@@ -31,4 +52,6 @@ const parseList = (response) => {
 
 export const data = {
   getHeroes,
+  getHero,
+  updateHero,
 };

@@ -9,28 +9,20 @@
           <div class="field">
             <label class="label" for="id">id</label>
             <label class="input" id="id" readonly>
-              {{ clonedHero.id }}
+              {{ hero.id }}
             </label>
           </div>
           <div class="field">
             <label class="label" for="firstName">first name</label>
-            <input
-              class="input"
-              id="firstName"
-              v-model="clonedHero.firstName"
-            />
+            <input class="input" id="firstName" v-model="hero.firstName" />
           </div>
           <div class="field">
             <label class="label" for="lastName">last name</label>
-            <input class="input" id="lastName" v-model="clonedHero.lastName" />
+            <input class="input" id="lastName" v-model="hero.lastName" />
           </div>
           <div class="field">
             <label class="label" for="description">description</label>
-            <input
-              class="input"
-              id="description"
-              v-model="clonedHero.description"
-            />
+            <input class="input" id="description" v-model="hero.description" />
           </div>
           <div class="field">
             <label class="label" for="capeCounter">cape counter</label>
@@ -38,7 +30,7 @@
               class="input"
               name="capeCounter"
               type="number"
-              v-model="clonedHero.capeCounter"
+              v-model="hero.capeCounter"
             />
           </div>
           <div class="field">
@@ -65,35 +57,37 @@
 </template>
 
 <script lang="ts">
-import { lifecycleHooks } from "../shared";
+import { lifecycleHooks, data } from "../shared";
 
 export default {
   name: "HeroDetails",
   props: {
-    hero: {
-      type: Object,
-      default: () => {},
+    id: {
+      type: Number,
+      default: 0,
     },
+  },
+  async created() {
+    this.hero = await data.getHero(this.id);
   },
   data() {
     return {
-      clonedHero: { ...this.hero },
+      hero: {},
     };
   },
   mixins: [lifecycleHooks],
   computed: {
     fullName() {
-      return this.clonedHero
-        ? `${this.clonedHero.firstName} ${this.clonedHero.lastName}`
-        : "";
+      return this.hero ? `${this.hero.firstName} ${this.hero.lastName}` : "";
     },
   },
   methods: {
     cancelHero() {
-      this.$emit("cancel");
+      this.$router.push({ name: "heroes" });
     },
-    saveHero() {
-      this.$emit("save", this.clonedHero);
+    async saveHero() {
+      await data.updateHero(this.hero);
+      this.$router.push({ name: "heroes" });
     },
     handleTheCapes(newValue) {
       const value = parseInt(newValue, 10);
@@ -114,7 +108,7 @@ export default {
     },
   },
   watch: {
-    "clonedHero.capeCounter": {
+    "hero.capeCounter": {
       immediate: true,
       handler(newValue, oldValue) {
         console.log(

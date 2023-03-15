@@ -12,19 +12,5 @@
     "lastName": "Papa",
     "description": "the cat whisperer",
     "capeCounter": "0"
-  },
-  {
-    "id": 30,
-    "firstName": "Haley",
-    "lastName": "Papa",
-    "description": "pen wielder",
-    "capeCounter": "1"
-  },
-  {
-    "id": 40,
-    "firstName": "Landon",
-    "lastName": "Papa",
-    "description": "arc trooper",
-    "capeCounter": "2"
   }
 ]
